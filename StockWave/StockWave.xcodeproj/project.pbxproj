@@ -7,19 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		910424AE2BD572F2002922CF /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910424AD2BD572F2002922CF /* MainTabBarViewController.swift */; };
+		910424B02BD5731F002922CF /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910424AF2BD5731F002922CF /* PortfolioViewController.swift */; };
+		910424B22BD5734A002922CF /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910424B12BD5734A002922CF /* FavouritesViewController.swift */; };
+		910424B42BD5735D002922CF /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910424B32BD5735D002922CF /* SearchViewController.swift */; };
 		9197DD6C2BD5699F00D8270C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6B2BD5699F00D8270C /* AppDelegate.swift */; };
 		9197DD6E2BD5699F00D8270C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6D2BD5699F00D8270C /* SceneDelegate.swift */; };
-		9197DD702BD5699F00D8270C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6F2BD5699F00D8270C /* ViewController.swift */; };
+		9197DD702BD5699F00D8270C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6F2BD5699F00D8270C /* HomeViewController.swift */; };
 		9197DD762BD5699F00D8270C /* StockWave.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD742BD5699F00D8270C /* StockWave.xcdatamodeld */; };
 		9197DD782BD569A100D8270C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9197DD772BD569A100D8270C /* Assets.xcassets */; };
 		9197DD7B2BD569A100D8270C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9197DD792BD569A100D8270C /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		910424AD2BD572F2002922CF /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		910424AF2BD5731F002922CF /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
+		910424B12BD5734A002922CF /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
+		910424B32BD5735D002922CF /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		9197DD682BD5699F00D8270C /* StockWave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockWave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9197DD6B2BD5699F00D8270C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9197DD6D2BD5699F00D8270C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		9197DD6F2BD5699F00D8270C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9197DD6F2BD5699F00D8270C /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		9197DD752BD5699F00D8270C /* StockWave.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = StockWave.xcdatamodel; sourceTree = "<group>"; };
 		9197DD772BD569A100D8270C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9197DD7A2BD569A100D8270C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -37,6 +45,93 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		910424A32BD571FE002922CF /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				910424AC2BD572B9002922CF /* TabBar */,
+				910424A72BD57230002922CF /* Search */,
+				910424A62BD57216002922CF /* Favourites */,
+				910424A52BD5720B002922CF /* Portfolio */,
+				910424A42BD57206002922CF /* Home */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		910424A42BD57206002922CF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				910424A92BD57267002922CF /* View */,
+				910424AB2BD57272002922CF /* ViewModel */,
+				910424AA2BD5726D002922CF /* Model */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		910424A52BD5720B002922CF /* Portfolio */ = {
+			isa = PBXGroup;
+			children = (
+				910424AF2BD5731F002922CF /* PortfolioViewController.swift */,
+			);
+			path = Portfolio;
+			sourceTree = "<group>";
+		};
+		910424A62BD57216002922CF /* Favourites */ = {
+			isa = PBXGroup;
+			children = (
+				910424B12BD5734A002922CF /* FavouritesViewController.swift */,
+			);
+			path = Favourites;
+			sourceTree = "<group>";
+		};
+		910424A72BD57230002922CF /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				910424B32BD5735D002922CF /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		910424A82BD57242002922CF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9197DD772BD569A100D8270C /* Assets.xcassets */,
+				9197DD792BD569A100D8270C /* LaunchScreen.storyboard */,
+				9197DD6B2BD5699F00D8270C /* AppDelegate.swift */,
+				9197DD6D2BD5699F00D8270C /* SceneDelegate.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		910424A92BD57267002922CF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9197DD6F2BD5699F00D8270C /* HomeViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		910424AA2BD5726D002922CF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		910424AB2BD57272002922CF /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		910424AC2BD572B9002922CF /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				910424AD2BD572F2002922CF /* MainTabBarViewController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		9197DD5F2BD5699F00D8270C = {
 			isa = PBXGroup;
 			children = (
@@ -56,11 +151,8 @@
 		9197DD6A2BD5699F00D8270C /* StockWave */ = {
 			isa = PBXGroup;
 			children = (
-				9197DD6B2BD5699F00D8270C /* AppDelegate.swift */,
-				9197DD6D2BD5699F00D8270C /* SceneDelegate.swift */,
-				9197DD6F2BD5699F00D8270C /* ViewController.swift */,
-				9197DD772BD569A100D8270C /* Assets.xcassets */,
-				9197DD792BD569A100D8270C /* LaunchScreen.storyboard */,
+				910424A32BD571FE002922CF /* Modules */,
+				910424A82BD57242002922CF /* Resources */,
 				9197DD7C2BD569A100D8270C /* Info.plist */,
 				9197DD742BD5699F00D8270C /* StockWave.xcdatamodeld */,
 			);
@@ -137,9 +229,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9197DD702BD5699F00D8270C /* ViewController.swift in Sources */,
+				910424AE2BD572F2002922CF /* MainTabBarViewController.swift in Sources */,
+				910424B02BD5731F002922CF /* PortfolioViewController.swift in Sources */,
+				910424B42BD5735D002922CF /* SearchViewController.swift in Sources */,
+				9197DD702BD5699F00D8270C /* HomeViewController.swift in Sources */,
 				9197DD762BD5699F00D8270C /* StockWave.xcdatamodeld in Sources */,
 				9197DD6C2BD5699F00D8270C /* AppDelegate.swift in Sources */,
+				910424B22BD5734A002922CF /* FavouritesViewController.swift in Sources */,
 				9197DD6E2BD5699F00D8270C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
