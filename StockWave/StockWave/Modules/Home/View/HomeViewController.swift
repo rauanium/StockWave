@@ -11,6 +11,8 @@ import Kingfisher
 
 class HomeViewController: UIViewController {
     
+    var viewModel: HomeViewModel?
+    
     private lazy var image: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "road")
@@ -22,6 +24,8 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .yellow
         setupViews()
+        setupViewModel()
+
     }
 
     func setupViews() {
@@ -31,6 +35,13 @@ class HomeViewController: UIViewController {
             make.center.equalToSuperview()
         }
         setupImage()
+    }
+    
+    func setupViewModel() {
+        viewModel = HomeViewModel()
+        viewModel?.getTrending(completion: { items in
+            
+        })
     }
     
     func setupImage(){
