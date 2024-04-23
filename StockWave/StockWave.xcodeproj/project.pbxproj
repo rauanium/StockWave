@@ -11,6 +11,15 @@
 		910424B02BD5731F002922CF /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910424AF2BD5731F002922CF /* PortfolioViewController.swift */; };
 		910424B22BD5734A002922CF /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910424B12BD5734A002922CF /* FavouritesViewController.swift */; };
 		910424B42BD5735D002922CF /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910424B32BD5735D002922CF /* SearchViewController.swift */; };
+		911EEF272BD77E6F00C4FD92 /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF262BD77E6F00C4FD92 /* DGCharts */; };
+		911EEF292BD77E7000C4FD92 /* DGChartsDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF282BD77E6F00C4FD92 /* DGChartsDynamic */; };
+		911EEF2C2BD77E8300C4FD92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF2B2BD77E8300C4FD92 /* SnapKit */; };
+		911EEF2E2BD77E8300C4FD92 /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF2D2BD77E8300C4FD92 /* SnapKit-Dynamic */; };
+		911EEF312BD77EDC00C4FD92 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF302BD77EDC00C4FD92 /* Kingfisher */; };
+		911EEF342BD77FB100C4FD92 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF332BD77FB100C4FD92 /* CombineMoya */; };
+		911EEF362BD77FB100C4FD92 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF352BD77FB100C4FD92 /* Moya */; };
+		911EEF382BD77FB100C4FD92 /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF372BD77FB100C4FD92 /* ReactiveMoya */; };
+		911EEF3A2BD77FB100C4FD92 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF392BD77FB100C4FD92 /* RxMoya */; };
 		9197DD6C2BD5699F00D8270C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6B2BD5699F00D8270C /* AppDelegate.swift */; };
 		9197DD6E2BD5699F00D8270C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6D2BD5699F00D8270C /* SceneDelegate.swift */; };
 		9197DD702BD5699F00D8270C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6F2BD5699F00D8270C /* HomeViewController.swift */; };
@@ -39,6 +48,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				911EEF2C2BD77E8300C4FD92 /* SnapKit in Frameworks */,
+				911EEF292BD77E7000C4FD92 /* DGChartsDynamic in Frameworks */,
+				911EEF342BD77FB100C4FD92 /* CombineMoya in Frameworks */,
+				911EEF272BD77E6F00C4FD92 /* DGCharts in Frameworks */,
+				911EEF2E2BD77E8300C4FD92 /* SnapKit-Dynamic in Frameworks */,
+				911EEF382BD77FB100C4FD92 /* ReactiveMoya in Frameworks */,
+				911EEF3A2BD77FB100C4FD92 /* RxMoya in Frameworks */,
+				911EEF362BD77FB100C4FD92 /* Moya in Frameworks */,
+				911EEF312BD77EDC00C4FD92 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +150,37 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
+		911EEF212BD77C8100C4FD92 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				911EEF242BD77C9500C4FD92 /* ResponseModel */,
+				911EEF232BD77C8E00C4FD92 /* NetworkManager */,
+				911EEF222BD77C8800C4FD92 /* Target */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		911EEF222BD77C8800C4FD92 /* Target */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Target;
+			sourceTree = "<group>";
+		};
+		911EEF232BD77C8E00C4FD92 /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		911EEF242BD77C9500C4FD92 /* ResponseModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ResponseModel;
+			sourceTree = "<group>";
+		};
 		9197DD5F2BD5699F00D8270C = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +200,7 @@
 		9197DD6A2BD5699F00D8270C /* StockWave */ = {
 			isa = PBXGroup;
 			children = (
+				911EEF212BD77C8100C4FD92 /* Core */,
 				910424A32BD571FE002922CF /* Modules */,
 				910424A82BD57242002922CF /* Resources */,
 				9197DD7C2BD569A100D8270C /* Info.plist */,
@@ -175,6 +225,17 @@
 			dependencies = (
 			);
 			name = StockWave;
+			packageProductDependencies = (
+				911EEF262BD77E6F00C4FD92 /* DGCharts */,
+				911EEF282BD77E6F00C4FD92 /* DGChartsDynamic */,
+				911EEF2B2BD77E8300C4FD92 /* SnapKit */,
+				911EEF2D2BD77E8300C4FD92 /* SnapKit-Dynamic */,
+				911EEF302BD77EDC00C4FD92 /* Kingfisher */,
+				911EEF332BD77FB100C4FD92 /* CombineMoya */,
+				911EEF352BD77FB100C4FD92 /* Moya */,
+				911EEF372BD77FB100C4FD92 /* ReactiveMoya */,
+				911EEF392BD77FB100C4FD92 /* RxMoya */,
+			);
 			productName = StockWave;
 			productReference = 9197DD682BD5699F00D8270C /* StockWave.app */;
 			productType = "com.apple.product-type.application";
@@ -203,6 +264,12 @@
 				Base,
 			);
 			mainGroup = 9197DD5F2BD5699F00D8270C;
+			packageReferences = (
+				911EEF252BD77E6F00C4FD92 /* XCRemoteSwiftPackageReference "Charts" */,
+				911EEF2A2BD77E8300C4FD92 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				911EEF2F2BD77EDC00C4FD92 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				911EEF322BD77FB100C4FD92 /* XCRemoteSwiftPackageReference "Moya" */,
+			);
 			productRefGroup = 9197DD692BD5699F00D8270C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -449,6 +516,89 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		911EEF252BD77E6F00C4FD92 /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
+		911EEF2A2BD77E8300C4FD92 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		911EEF2F2BD77EDC00C4FD92 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.11.0;
+			};
+		};
+		911EEF322BD77FB100C4FD92 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		911EEF262BD77E6F00C4FD92 /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 911EEF252BD77E6F00C4FD92 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
+		};
+		911EEF282BD77E6F00C4FD92 /* DGChartsDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 911EEF252BD77E6F00C4FD92 /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGChartsDynamic;
+		};
+		911EEF2B2BD77E8300C4FD92 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 911EEF2A2BD77E8300C4FD92 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		911EEF2D2BD77E8300C4FD92 /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 911EEF2A2BD77E8300C4FD92 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+		911EEF302BD77EDC00C4FD92 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 911EEF2F2BD77EDC00C4FD92 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		911EEF332BD77FB100C4FD92 /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 911EEF322BD77FB100C4FD92 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+		911EEF352BD77FB100C4FD92 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 911EEF322BD77FB100C4FD92 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		911EEF372BD77FB100C4FD92 /* ReactiveMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 911EEF322BD77FB100C4FD92 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = ReactiveMoya;
+		};
+		911EEF392BD77FB100C4FD92 /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 911EEF322BD77FB100C4FD92 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9197DD742BD5699F00D8270C /* StockWave.xcdatamodeld */ = {
