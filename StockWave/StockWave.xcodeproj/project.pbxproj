@@ -26,6 +26,11 @@
 		911EEF452BD8109900C4FD92 /* ActiveGainersLosersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EEF442BD8109900C4FD92 /* ActiveGainersLosersResponse.swift */; };
 		911EEF472BD8137100C4FD92 /* TrendingStocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EEF462BD8137100C4FD92 /* TrendingStocks.swift */; };
 		911EEF492BD8165D00C4FD92 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EEF482BD8165D00C4FD92 /* HomeViewModel.swift */; };
+		914067D12BD965CC00EB344D /* TrendingStocksCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914067D02BD965CC00EB344D /* TrendingStocksCollectionViewCell.swift */; };
+		914067D32BD967FA00EB344D /* HomeSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914067D22BD967FA00EB344D /* HomeSections.swift */; };
+		914067D52BD968C800EB344D /* HomeStocksDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914067D42BD968C800EB344D /* HomeStocksDataModel.swift */; };
+		914067D72BD9790600EB344D /* GeneralCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914067D62BD9790600EB344D /* GeneralCollectionViewCell.swift */; };
+		914067D92BD97AD200EB344D /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914067D82BD97AD200EB344D /* HeaderView.swift */; };
 		9197DD6C2BD5699F00D8270C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6B2BD5699F00D8270C /* AppDelegate.swift */; };
 		9197DD6E2BD5699F00D8270C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6D2BD5699F00D8270C /* SceneDelegate.swift */; };
 		9197DD702BD5699F00D8270C /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9197DD6F2BD5699F00D8270C /* HomeViewController.swift */; };
@@ -45,6 +50,11 @@
 		911EEF442BD8109900C4FD92 /* ActiveGainersLosersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveGainersLosersResponse.swift; sourceTree = "<group>"; };
 		911EEF462BD8137100C4FD92 /* TrendingStocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingStocks.swift; sourceTree = "<group>"; };
 		911EEF482BD8165D00C4FD92 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		914067D02BD965CC00EB344D /* TrendingStocksCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingStocksCollectionViewCell.swift; sourceTree = "<group>"; };
+		914067D22BD967FA00EB344D /* HomeSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSections.swift; sourceTree = "<group>"; };
+		914067D42BD968C800EB344D /* HomeStocksDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStocksDataModel.swift; sourceTree = "<group>"; };
+		914067D62BD9790600EB344D /* GeneralCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralCollectionViewCell.swift; sourceTree = "<group>"; };
+		914067D82BD97AD200EB344D /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		9197DD682BD5699F00D8270C /* StockWave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StockWave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9197DD6B2BD5699F00D8270C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9197DD6D2BD5699F00D8270C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				9197DD6F2BD5699F00D8270C /* HomeViewController.swift */,
+				914067CF2BD965A900EB344D /* Subviews */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -143,6 +154,8 @@
 		910424AA2BD5726D002922CF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				914067D22BD967FA00EB344D /* HomeSections.swift */,
+				914067D42BD968C800EB344D /* HomeStocksDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -213,6 +226,16 @@
 				911EEF442BD8109900C4FD92 /* ActiveGainersLosersResponse.swift */,
 			);
 			path = Response;
+			sourceTree = "<group>";
+		};
+		914067CF2BD965A900EB344D /* Subviews */ = {
+			isa = PBXGroup;
+			children = (
+				914067D02BD965CC00EB344D /* TrendingStocksCollectionViewCell.swift */,
+				914067D62BD9790600EB344D /* GeneralCollectionViewCell.swift */,
+				914067D82BD97AD200EB344D /* HeaderView.swift */,
+			);
+			path = Subviews;
 			sourceTree = "<group>";
 		};
 		9197DD5F2BD5699F00D8270C = {
@@ -331,10 +354,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				911EEF452BD8109900C4FD92 /* ActiveGainersLosersResponse.swift in Sources */,
+				914067D72BD9790600EB344D /* GeneralCollectionViewCell.swift in Sources */,
 				911EEF472BD8137100C4FD92 /* TrendingStocks.swift in Sources */,
 				910424AE2BD572F2002922CF /* MainTabBarViewController.swift in Sources */,
 				910424B02BD5731F002922CF /* PortfolioViewController.swift in Sources */,
 				910424B42BD5735D002922CF /* SearchViewController.swift in Sources */,
+				914067D92BD97AD200EB344D /* HeaderView.swift in Sources */,
+				914067D12BD965CC00EB344D /* TrendingStocksCollectionViewCell.swift in Sources */,
 				9197DD702BD5699F00D8270C /* HomeViewController.swift in Sources */,
 				911EEF412BD80E8C00C4FD92 /* BaseTargetType.swift in Sources */,
 				911EEF3F2BD80E1A00C4FD92 /* ActiveGainersLosersTarget.swift in Sources */,
@@ -342,7 +368,9 @@
 				911EEF492BD8165D00C4FD92 /* HomeViewModel.swift in Sources */,
 				9197DD6C2BD5699F00D8270C /* AppDelegate.swift in Sources */,
 				911EEF3D2BD80D9700C4FD92 /* GlobalData.swift in Sources */,
+				914067D52BD968C800EB344D /* HomeStocksDataModel.swift in Sources */,
 				910424B22BD5734A002922CF /* FavouritesViewController.swift in Sources */,
+				914067D32BD967FA00EB344D /* HomeSections.swift in Sources */,
 				9197DD6E2BD5699F00D8270C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
