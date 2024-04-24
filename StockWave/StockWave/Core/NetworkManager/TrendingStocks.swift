@@ -11,7 +11,7 @@ import Moya
 final class TrendingStocks {
     static let shared = TrendingStocks()
     let jsonString = ""
-    private let provider = MoyaProvider<CompanyProfileTarget>(plugins: [NetworkLoggerPlugin()])
+    private let provider = MoyaProvider<ActiveGainersLosersTarget>(plugins: [NetworkLoggerPlugin()])
     
     func getMostActive(completion: @escaping ([ActiveGainersLosersResponse]) -> () ) {
         provider.request(.getActive) { result in

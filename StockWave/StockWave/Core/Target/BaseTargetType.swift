@@ -28,6 +28,8 @@ extension BaseTargetType {
     }
     
     var headers: [String : String]? {
-        return nil
+        return [
+            "Content-Type": "application/json"
+        ]
     }
 }

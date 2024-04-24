@@ -1,5 +1,5 @@
 //
-//  CompanyProfileTarget.swift
+//  ActiveGainersLosersTarget.swift
 //  StockWave
 //
 //  Created by rauan on 4/23/24.
@@ -8,13 +8,13 @@
 import Foundation
 import Moya
 
-enum CompanyProfileTarget {
+enum ActiveGainersLosersTarget {
     case getActive
     case getLosers
     case getGainers
 }
 
-extension CompanyProfileTarget: BaseTargetType {
+extension ActiveGainersLosersTarget: BaseTargetType {
     var baseURL: URL {
         return URL(string: GlobalData.baseURL)!
     }
@@ -33,13 +33,6 @@ extension CompanyProfileTarget: BaseTargetType {
     var task: Moya.Task {
         return .requestParameters(parameters: ["apikey": "ysPec5JNkAoh6jdNynGU92zFtb1G5hm1"], encoding: URLEncoding.default)
     }
-    
-    var headers: [String : String]? {
-        return [
-                "Content-Type": "application/json"
-        ]
-    }
-    
 }
 
 

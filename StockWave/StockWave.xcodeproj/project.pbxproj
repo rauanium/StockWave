@@ -21,7 +21,7 @@
 		911EEF382BD77FB100C4FD92 /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF372BD77FB100C4FD92 /* ReactiveMoya */; };
 		911EEF3A2BD77FB100C4FD92 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 911EEF392BD77FB100C4FD92 /* RxMoya */; };
 		911EEF3D2BD80D9700C4FD92 /* GlobalData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EEF3C2BD80D9700C4FD92 /* GlobalData.swift */; };
-		911EEF3F2BD80E1A00C4FD92 /* CompanyProfileTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EEF3E2BD80E1A00C4FD92 /* CompanyProfileTarget.swift */; };
+		911EEF3F2BD80E1A00C4FD92 /* ActiveGainersLosersTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EEF3E2BD80E1A00C4FD92 /* ActiveGainersLosersTarget.swift */; };
 		911EEF412BD80E8C00C4FD92 /* BaseTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EEF402BD80E8C00C4FD92 /* BaseTargetType.swift */; };
 		911EEF452BD8109900C4FD92 /* ActiveGainersLosersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EEF442BD8109900C4FD92 /* ActiveGainersLosersResponse.swift */; };
 		911EEF472BD8137100C4FD92 /* TrendingStocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911EEF462BD8137100C4FD92 /* TrendingStocks.swift */; };
@@ -40,7 +40,7 @@
 		910424B12BD5734A002922CF /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
 		910424B32BD5735D002922CF /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		911EEF3C2BD80D9700C4FD92 /* GlobalData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalData.swift; sourceTree = "<group>"; };
-		911EEF3E2BD80E1A00C4FD92 /* CompanyProfileTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyProfileTarget.swift; sourceTree = "<group>"; };
+		911EEF3E2BD80E1A00C4FD92 /* ActiveGainersLosersTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveGainersLosersTarget.swift; sourceTree = "<group>"; };
 		911EEF402BD80E8C00C4FD92 /* BaseTargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTargetType.swift; sourceTree = "<group>"; };
 		911EEF442BD8109900C4FD92 /* ActiveGainersLosersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveGainersLosersResponse.swift; sourceTree = "<group>"; };
 		911EEF462BD8137100C4FD92 /* TrendingStocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingStocks.swift; sourceTree = "<group>"; };
@@ -167,7 +167,6 @@
 			isa = PBXGroup;
 			children = (
 				911EEF422BD80FCD00C4FD92 /* Data */,
-				911EEF242BD77C9500C4FD92 /* ResponseModel */,
 				911EEF232BD77C8E00C4FD92 /* NetworkManager */,
 				911EEF222BD77C8800C4FD92 /* Target */,
 			);
@@ -177,7 +176,7 @@
 		911EEF222BD77C8800C4FD92 /* Target */ = {
 			isa = PBXGroup;
 			children = (
-				911EEF3E2BD80E1A00C4FD92 /* CompanyProfileTarget.swift */,
+				911EEF3E2BD80E1A00C4FD92 /* ActiveGainersLosersTarget.swift */,
 				911EEF402BD80E8C00C4FD92 /* BaseTargetType.swift */,
 			);
 			path = Target;
@@ -189,13 +188,6 @@
 				911EEF462BD8137100C4FD92 /* TrendingStocks.swift */,
 			);
 			path = NetworkManager;
-			sourceTree = "<group>";
-		};
-		911EEF242BD77C9500C4FD92 /* ResponseModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ResponseModel;
 			sourceTree = "<group>";
 		};
 		911EEF3B2BD80D7B00C4FD92 /* GlobalData */ = {
@@ -345,7 +337,7 @@
 				910424B42BD5735D002922CF /* SearchViewController.swift in Sources */,
 				9197DD702BD5699F00D8270C /* HomeViewController.swift in Sources */,
 				911EEF412BD80E8C00C4FD92 /* BaseTargetType.swift in Sources */,
-				911EEF3F2BD80E1A00C4FD92 /* CompanyProfileTarget.swift in Sources */,
+				911EEF3F2BD80E1A00C4FD92 /* ActiveGainersLosersTarget.swift in Sources */,
 				9197DD762BD5699F00D8270C /* StockWave.xcdatamodeld in Sources */,
 				911EEF492BD8165D00C4FD92 /* HomeViewModel.swift in Sources */,
 				9197DD6C2BD5699F00D8270C /* AppDelegate.swift in Sources */,
