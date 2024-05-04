@@ -1,14 +1,14 @@
 //
-//  TrendingStocksCollectionViewCell.swift
+//  WatchlistCollectionViewCell.swift
 //  StockWave
 //
-//  Created by rauan on 4/24/24.
+//  Created by rauan on 4/26/24.
 //
 
 import UIKit
 
-class TrendingStocksCollectionViewCell: UICollectionViewCell {
-    static let identifier = "TrendingStocksCollectionViewCell"
+class WatchlistCollectionViewCell: UICollectionViewCell {
+    static let identifier = "WatchlistCollectionViewCell"
     
     private lazy var logo: UIImageView = {
         let logo = UIImageView()
@@ -91,6 +91,9 @@ class TrendingStocksCollectionViewCell: UICollectionViewCell {
     private func setupViews() {
         contentView.addSubview(numbersAndNamesStack)
         contentView.addSubview(logo)
+        contentView.layer.cornerRadius = 6
+        contentView.layer.borderColor = UIColor.gray.cgColor
+        contentView.layer.borderWidth = 0.5
         [tickerNameStack, priceChangeStack].forEach {
             numbersAndNamesStack.addArrangedSubview($0)
         }
@@ -104,19 +107,19 @@ class TrendingStocksCollectionViewCell: UICollectionViewCell {
         }
         
         tickerNameStack.snp.makeConstraints { make in
-            make.width.equalTo(150)
+            make.width.equalTo(70)
         }
         
         logo.snp.makeConstraints { make in
-            make.left.equalToSuperview()
+            make.left.top.equalToSuperview().inset(8)
             make.size.equalTo(34)
-            make.centerY.equalToSuperview()
+            
         }
         
         numbersAndNamesStack.snp.makeConstraints { make in
-            make.left.equalTo(logo.snp.right).offset(12)
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview()
+            make.left.equalTo(logo.snp.right).offset(8)
+            make.centerY.equalTo(logo.snp.centerY)
+            make.right.equalToSuperview().offset(-8)
         }
     }
     

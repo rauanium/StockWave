@@ -8,9 +8,9 @@
 import Foundation
 
 struct ActiveGainersLosersResponse: Decodable {
-    let symbol: String
-    let name: String
-    let change: Double
-    let price: Double
-    let changesPercentage: Double
+    let symbol: String?
+    let name: String?
+    let change: Double?
+    let price: Double?
+    let changesPercentage: Double?
 }

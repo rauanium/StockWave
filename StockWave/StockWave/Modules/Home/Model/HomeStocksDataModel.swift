@@ -18,6 +18,7 @@ struct HomeStocksDataModel {
     let companyName: String
     let companyPrice: Double
     let companyChange: Double?
+    let companyChangePercentage: Double
     
 }
 

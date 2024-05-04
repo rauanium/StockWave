@@ -11,11 +11,15 @@ import SnapKit
 class HeaderView: UICollectionReusableView {
     static let identifier = "HeaderView"
     
-    let label = UILabel()
+    private lazy var headerLabel: UILabel = {
+        let headerLabel = UILabel()
+        headerLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        return headerLabel
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
+        setupView()
     }
     
     required init?(coder: NSCoder) {
@@ -24,15 +28,15 @@ class HeaderView: UICollectionReusableView {
 }
 
 extension HeaderView {
-    func configure() {
-        backgroundColor = .yellow
-        
-        addSubview(label)
-        
-        
-        label.snp.makeConstraints { make in
-            make.left.right.equalToSuperview().inset(10)
-            make.centerY.equalToSuperview()
+    private func setupView() {
+        addSubview(headerLabel)
+        headerLabel.snp.makeConstraints { make in
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
+    }
+    
+    func configure(title: String) {
+        headerLabel.text = title
     }
 }
