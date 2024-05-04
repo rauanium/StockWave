@@ -2,28 +2,72 @@
 //  SearchViewController.swift
 //  StockWave
 //
-//  Created by rauan on 4/21/24.
+//  Created by Aliyeva Mariya on 3/05/24.
 //
 
 import UIKit
 
-class SearchViewController: UIViewController {
+final class SearchViewController: UIViewController {
+	
+	// MARK: - Props
+	
+	var timer: Timer?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .gray
-        // Do any additional setup after loading the view.
-    }
-    
+	// MARK: - UI
+	
+	private lazy var searchViewController: UISearchController = {
+		let searchVC = UISearchController(searchResultsController: SearchResultsViewController())
+		searchVC.searchBar.placeholder = "What do you want to?"
+		searchVC.searchBar.searchBarStyle = .minimal
+		searchVC.definesPresentationContext = true
+		searchVC.searchBar.searchTextField.backgroundColor = .white
+		searchVC.searchResultsUpdater = self
+		return searchVC
+	}()
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+	// MARK: - Lifecycle
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		setupNavigationBar()
+		setupViews()
+	}
+	
+	// MARK: - SetupNavigationBar
+	
+	private func setupNavigationBar() {
+		title = "Search"
+		navigationItem.searchController = searchViewController
+		self.navigationItem.backBarButtonItem?.tintColor = .white
+	}
+	
+	// MARK: - SetupViews
+	private func setupViews() {
+		view.backgroundColor = .white
+	}
+	
 }
+
+// MARK: - UISearchResultsUpdating
+
+extension SearchViewController: UISearchResultsUpdating {
+	
+	func updateSearchResults(for searchController: UISearchController) {
+		guard
+			let resultsViewController = searchViewController.searchResultsController as?
+				SearchResultsViewController,
+			let text = searchController.searchBar.text,
+			!text.trimmingCharacters(in: .whitespaces).isEmpty
+		else {
+			return
+		}
+		
+		timer?.invalidate()
+		timer = Timer.scheduledTimer(withTimeInterval: 0.7, repeats: false, block: { _ in
+			SearchManager.shared.getSymbol(symbol: text) { result in
+				resultsViewController.update(with: result)
+			}
+		})
+	}
+}
+

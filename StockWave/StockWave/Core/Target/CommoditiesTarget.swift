@@ -28,7 +28,7 @@ extension CommoditiesTarget: BaseTargetType {
     }
     
     var task: Moya.Task {
-        return .requestParameters(parameters: ["apikey": "ysPec5JNkAoh6jdNynGU92zFtb1G5hm1"],
+        return .requestParameters(parameters: ["apikey": "773U9cq7jzwBvw9gPs6GN4i42h3YyOCh"],
                                   encoding: URLEncoding.default)
     }
 }
