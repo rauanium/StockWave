@@ -29,21 +29,6 @@ class HomeViewController: UIViewController {
     private var dataSource: stockDataSource!
     static let sectionHeaderElementKind = "section-header-element-kind"
     
-    private lazy var portfolioLabel: UILabel = {
-        let portfolioLabel = UILabel()
-        portfolioLabel.font = UIFont.systemFont(ofSize: 14)
-        portfolioLabel.textColor = .gray
-        portfolioLabel.text = "Portfolio value"
-        return portfolioLabel
-    }()
-    
-    private lazy var portfolioValue: UILabel = {
-        let portfolioValue = UILabel()
-        portfolioValue.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        portfolioValue.text = "$13,283"
-        return portfolioValue
-    }()
-    
     private lazy var compositionalLayout: UICollectionView = {
         let compositionalView = UICollectionView(frame: view.bounds, collectionViewLayout: generateLayout())
         compositionalView.backgroundColor = .clear
@@ -76,43 +61,34 @@ class HomeViewController: UIViewController {
         setupViews()
         setupViewModel()
         configureDataSource()
-        setupNavigation()
+        setupNavBar()
     }
     //MARK: - setupviews
     func setupViews() {
-        
-        
         view.backgroundColor = .white
         
         view.addSubview(compositionalLayout)
-        view.addSubview(portfolioValue)
-        view.addSubview(portfolioLabel)
         
-        portfolioLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(70)
-            make.left.right.equalToSuperview().inset(16)
-        }
-        
-        portfolioValue.snp.makeConstraints { make in
-            make.top.equalTo(portfolioLabel.snp.bottom)
-            make.left.right.equalToSuperview().inset(16)
-        }
         compositionalLayout.snp.makeConstraints { make in
-            make.top.equalTo(portfolioValue.snp.bottom).offset(10)
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.left.right.equalToSuperview().inset(16)
         }
     }
     
-    private func setupNavigation() {
+    private func setupNavBar() {
+        navigationItem.title = "Home"
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithOpaqueBackground()
+        navigationBarAppearance.titleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.black
+        ]
+        navigationBarAppearance.largeTitleTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.black
+        ]
+        navigationBarAppearance.backgroundColor = .white
         
-        navigationBarAppearance.backgroundColor = .clear
-        navigationBarAppearance.shadowColor = .clear
-        
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.navigationBar.tintColor = .black
         
         navigationController?.navigationBar.standardAppearance = navigationBarAppearance
         navigationController?.navigationBar.compactAppearance = navigationBarAppearance
@@ -457,9 +433,9 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
         let stockDetailsViewController = StockDetailsViewController()
-//        stockDetailsViewController.ticker = item.companyTicker
+        stockDetailsViewController.ticker = item.companyTicker
 //        stockDetailsViewController.companyName = item.companyName
-        stockDetailsViewController.details = item
+//        stockDetailsViewController.details = item
         stockDetailsViewController.hidesBottomBarWhenPushed = true
         print("companyTicker: \(item.companyTicker)")
         

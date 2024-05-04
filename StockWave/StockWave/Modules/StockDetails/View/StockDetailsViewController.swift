@@ -17,9 +17,10 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     var rdChartDataEntry: [BarChartDataEntry] = []
     var sharesChartDataEntry: [BarChartDataEntry] = []
     
-    
     private var viewModel: DetailsViewModel?
-    var details: HomeStocksDataModel?
+    
+    var ticker: String?
+    
     var companyInformationData: CompanyInformationResponse?
     var tickerData: [Historical] = []
     var takeDay: Bool = true
@@ -78,19 +79,13 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         currentPrice.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         currentPrice.textColor = .black
         currentPrice.textAlignment = .right
-        currentPrice.text = "$\(String(format: "%.2f", details?.companyPrice ?? 0.0))"
+//        currentPrice.text = "$\(String(format: "%.2f", details?.companyPrice ?? 0.0))"
         return currentPrice
     }()
     private lazy var currentChange: UILabel = {
         let currentChange = UILabel()
         currentChange.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         currentChange.textColor = UIColor(red: 89.0/255.0, green: 85.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-        if details?.companyChange ?? 0.0 >= 0 {
-            currentChange.text = "+\(String(format: "%.2f", details?.companyChange ?? 0.0))"
-        } else {
-            currentChange.text = "\(String(format: "%.2f", details?.companyChange ?? 0.0))"
-        }
-        currentChange.text?.append(" (\(String(format: "%.2f", details?.companyChangePercentage ?? 0.0))%)")
         currentChange.textAlignment = .right
         return currentChange
     }()
@@ -277,7 +272,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     }
     
     func sutupViews() {
-        navigationItem.title = details?.companyName
+        
         setupNavBar()
          
         view.addSubview(scrollView)
@@ -304,8 +299,6 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         [currentPrice, currentChange].forEach {
             currentStack.addArrangedSubview($0)
         }
-        
-        
         
         [oneDay, oneWeek, oneMonth, oneYear, fiveYears, allHistroy].forEach {
             timelineStack.addArrangedSubview($0)
@@ -384,7 +377,9 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     func setupViewModel() {
         lineChartEntries = []
         viewModel = DetailsViewModel()
-        guard let tickerSymbol = details?.companyTicker else { return }
+        guard let tickerSymbol = ticker else { return }
+        
+        navigationItem.title = tickerSymbol
         
         let calendar = Calendar.current
         let yesterday = calendar.date(byAdding: .day, value: -1, to: Date())
@@ -401,14 +396,21 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
                 }
                 
                 self.historyPrice.text = "$\(String(format: "%.2f", dailyData[0].open ?? 0.0))"
-                let difference = (self.details?.companyPrice ?? 0.0) - (dailyData[0].open ?? 0.0)
-                let differenceInPercentage = (difference * 100) / (self.details?.companyPrice ?? 0.0)
+                self.currentPrice.text = "$\(String(format: "%.2f", dailyData[dailyData.count - 1].open ?? 0.0))"
+                let difference = (dailyData[dailyData.count - 1].open ?? 0.0) - (dailyData[0].open ?? 0.0)
+                let differenceInPercentage = (difference * 100) / (dailyData[dailyData.count - 1].open ?? 1.0)
                 
                 if difference >= 0 {
                     self.historyChange.text = "+\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
+                    self.currentChange.text = "+\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
                 } else {
                     self.historyChange.text = "\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
+                    self.currentChange.text = "\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
                 }
+                
+                
+                
+                
                 self.configureChart()
             }
         })
@@ -416,6 +418,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         viewModel?.getCompanyInformation(ticker: tickerSymbol, completion: { companyInformation in
             DispatchQueue.main.async {
                 self.companyDescription.text = companyInformation.description
+                self.navigationItem.title = companyInformation.companyName
                 self.companyInformationData = companyInformation
             }
         })
@@ -463,6 +466,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     private func configureSharesChart() {
         let dataSet = BarChartDataSet(entries: sharesChartDataEntry, label: "Shares outstanding last 5 years")
         let data = BarChartData(dataSet: dataSet)
+        data.setDrawValues(false)
         sharesChart.data = data
         
     }
@@ -470,6 +474,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     private func configureRdBarChart() {
         let dataSet = BarChartDataSet(entries: rdChartDataEntry, label: "R&D budget last 5 years")
         let data = BarChartData(dataSet: dataSet)
+        data.setDrawValues(false)
         rdChart.data = data
         
     }
@@ -477,22 +482,29 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     private func configureBarChart() {
         let dataSet = BarChartDataSet(entries: barChartDataEntry, label: "Revenue last 5 years")
         let data = BarChartData(dataSet: dataSet)
+        data.setDrawValues(false)
         barChart.data = data
         
     }
     private func configureIncomeBarChart() {
         let dataSet = BarChartDataSet(entries: incomeChartDataEntry, label: "Net Income last 5 years")
         let data = BarChartData(dataSet: dataSet)
+        data.setDrawValues(false)
         incomeChart.data = data
-        
     }
     
     func configureChart() {
         let dataSet = LineChartDataSet(entries: lineChartEntries)
+        dataSet.lineWidth = 2
         dataSet.circleRadius = 1
         dataSet.mode = .cubicBezier
+        dataSet.highlightColor = .systemRed
+        dataSet.drawHorizontalHighlightIndicatorEnabled = false
+        
         let data = LineChartData(dataSet: dataSet)
+        data.setDrawValues(false)
         chart.data = data
+        chart.animate(xAxisDuration: 2.5)
         
         let x = chart.xAxis
         x.labelCount = 5
@@ -500,6 +512,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         x.axisMinimum = 0
         x.valueFormatter = self
     }
+    
     @objc
     private func didChangedControl(_ segmentedControl: UISegmentedControl) {
         switch segmentedControl.selectedSegmentIndex {
@@ -516,6 +529,12 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
             sharesChart.isHidden = false
             companyDescription.isHidden = true
             
+        case 2:
+            barChart.isHidden = true
+            incomeChart.isHidden = true
+            rdChart.isHidden = true
+            sharesChart.isHidden = true
+            companyDescription.isHidden = true
         default:
             barChart.isHidden = true
             incomeChart.isHidden = true
@@ -624,7 +643,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
             $0.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
             $0.setTitleColor(.gray, for: .normal)
         }
-        guard let tickerSymbol = details?.companyTicker else { return }
+        guard let tickerSymbol = ticker else { return }
         
         viewModel?.getWeeklyCharts(ticker: tickerSymbol, completion: { chartsData in
             DispatchQueue.main.async {
@@ -642,7 +661,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     }
     
     private func gettingDataAcordingToDate(from: Int) {
-        guard let tickerSymbol = details?.companyTicker else { return }
+        guard let tickerSymbol = ticker else { return }
         lineChartEntries = []
         let calendar = Calendar.current
         let fromDate = calendar.date(byAdding: .day, value: -from, to: Date())
@@ -664,8 +683,8 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
                 }
                 
                 self.historyPrice.text = "$\(String(format: "%.2f", dailyData[0].open ?? 0.0))"
-                let difference = (self.details?.companyPrice ?? 0.0) - (dailyData[0].open ?? 0.0)
-                let differenceInPercentage = (difference * 100) / (self.details?.companyPrice ?? 0.0)
+                let difference = (dailyData[dailyData.count - 1].open ?? 0.0) - (dailyData[0].open ?? 0.0)
+                let differenceInPercentage = (difference * 100) / (dailyData[dailyData.count - 1].open ?? 1.0)
                 
                 if difference >= 0 {
                     self.historyChange.text = "+\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
@@ -698,6 +717,5 @@ extension StockDetailsViewController: AxisValueFormatter {
             return String("\(days)/\(month)")
             
         }
-        
     }
 }

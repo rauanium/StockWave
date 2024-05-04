@@ -31,12 +31,13 @@ extension ActiveGainersLosersTarget: BaseTargetType {
     }
     
     var task: Moya.Task {
-        return .requestParameters(parameters: ["apikey": "ysPec5JNkAoh6jdNynGU92zFtb1G5hm1"],
+        return .requestParameters(parameters: ["apikey": "LdkDAgkHEr7Vl7fWyFPvi0U3Dkx9AFVS"],
                                   encoding: URLEncoding.default)
     }
 }
 //ysPec5JNkAoh6jdNynGU92zFtb1G5hm1 - aspark
 //LdkDAgkHEr7Vl7fWyFPvi0U3Dkx9AFVS - r.zhaukenov
 //n2g6J4FFFpYhrivKY7DjuJh8RDrhLN2a - rauan
+//MntJPkNBu7rmU9Ced5GG3v18Ryazd1Vj - rauan.zhaukenov
 
 

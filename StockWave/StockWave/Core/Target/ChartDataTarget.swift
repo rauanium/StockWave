@@ -33,11 +33,11 @@ extension ChartDataTarget: BaseTargetType {
     var task: Moya.Task {
         switch self {
         case .getWeek:
-            return .requestParameters(parameters: ["apikey": "ysPec5JNkAoh6jdNynGU92zFtb1G5hm1"],
+            return .requestParameters(parameters: ["apikey": "LdkDAgkHEr7Vl7fWyFPvi0U3Dkx9AFVS"],
                                       encoding: URLEncoding.default)
         
         case .getDaily(_, from: let from, to: let to):
-            return .requestParameters(parameters: ["apikey": "ysPec5JNkAoh6jdNynGU92zFtb1G5hm1",
+            return .requestParameters(parameters: ["apikey": "LdkDAgkHEr7Vl7fWyFPvi0U3Dkx9AFVS",
                                                    "from" : from,
                                                    "to": to
                                                   ],
