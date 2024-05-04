@@ -8,6 +8,7 @@
 import UIKit
 import Charts
 import DGCharts
+import CoreData
 
 class StockDetailsViewController: UIViewController, ChartViewDelegate {
     
@@ -16,7 +17,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     var incomeChartDataEntry: [BarChartDataEntry] = []
     var rdChartDataEntry: [BarChartDataEntry] = []
     var sharesChartDataEntry: [BarChartDataEntry] = []
-    
+	  private var favouriteStocks: [NSManagedObject] = []
     
     private var viewModel: DetailsViewModel?
     var details: HomeStocksDataModel?
@@ -267,15 +268,106 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         return sharesChart
     }()
     
+	
+	//MARK: - Lifecycle
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		view.backgroundColor = .white
+		loadStocksFromWatchList()
+		setupViewModel()
+		buttonColorViewDidLoad()
+		sutupViews()
+	}
+	
+	// MARK: - Core
+	
+	private func loadStocksFromWatchList() {
+		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+		let managedContext = appDelegate.persistentContainer.viewContext
+		
+		let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Stocks")
+		do {
+			favouriteStocks = try managedContext.fetch(fetchRequest)
+		} catch let error as NSError {
+			print("Could not fetch. Error: \(error)")
+		}
+	}
+	
+	private func saveStocksFromWatchList(with name: String, symbol: String) {
+		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+		let managedContext = appDelegate.persistentContainer.viewContext
+		
+		guard let entity = NSEntityDescription.entity(
+			forEntityName: "Stocks",
+			in: managedContext
+		) else { return }
+		
+		let favoriteStock = NSManagedObject(entity: entity, insertInto: managedContext)
+		favoriteStock.setValue(name, forKey: "name")
+		favoriteStock.setValue(symbol, forKey: "symbol")
+	//	favoriteStock.setValue(image, forKey: "image")
+		
+		do {
+			try managedContext.save()
+		} catch let error as NSError {
+			print("Could not save. Error: \(error)")
+		}
+	}
+	
+	private func deleteStocksFromWatchList(with name: String, symbol: String) {
+		guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
+		let manageContext = appDelegate.persistentContainer.viewContext
+		
+		let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Stocks")
+		let predicate1 = NSPredicate(format: "name == %@", name)
+		let predicate2 = NSPredicate(format: "symbol == %@", symbol)
+	//	let predicate3 = NSPredicate(format: "image == %@", image)
+		let predicateAll = NSCompoundPredicate(type: .and, subpredicates: [predicate1, predicate2])
+		fetchRequest.predicate = predicateAll
+		
+		do {
+			let results = try manageContext.fetch(fetchRequest)
+			let data = results.first
+			if let data {
+				manageContext.delete(data)
+			}
+			try manageContext.save()
+		} catch let error as NSError {
+			print("Could not save. Error \(error)")
+		}
+	}
     
-    //MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        setupViewModel()
-        sutupViews()
-    }
-    
+	func buttonColorViewDidLoad() {
+		let isFavouritestock = !self.favouriteStocks.filter({ ($0.value(forKey: "symbol") as? String) == self.details?.companyTicker}).isEmpty
+//		if isFavouriteMovie {
+//			addToWatchListButton.backgroundColor = .red
+//			addToWatchListButton.setTitle("Remove from Watch List", for: .normal)
+//		} else {
+//			addToWatchListButton.backgroundColor = #colorLiteral(red: 0.1011425927, green: 0.2329770327, blue: 0.9290834069, alpha: 1)
+//			addToWatchListButton.setTitle("Add To Watch List", for: .normal)
+//		}
+	}
+//	(with name: String, symbol: String, image: String)
+	private func toggleButton() {
+		
+		loadStocksFromWatchList()
+		let isFavouritestock = !self.favouriteStocks.filter({ ($0.value(forKey: "symbol") as? String) == self.details?.companyTicker}).isEmpty
+
+		if !isFavouritestock {
+	//		addToWatchListButton.backgroundColor = .red
+	//		addToWatchListButton.setTitle("Remove from Watch List", for: .normal)
+			saveStocksFromWatchList(with: details?.companyName ?? "", symbol: details?.companyTicker ?? "")
+		} else {
+		//	addToWatchListButton.backgroundColor = #colorLiteral(red: 0.1011425927, green: 0.2329770327, blue: 0.9290834069, alpha: 1)
+	//		addToWatchListButton.setTitle("Add To Watch List", for: .normal)
+			deleteStocksFromWatchList(with: details?.companyName ?? "", symbol: details?.companyTicker ?? "")
+			
+//			if hideDetail == true {
+//				self.navigationController?.popViewController(animated: true)
+//			}
+		}
+
+	}
     func sutupViews() {
         navigationItem.title = details?.companyName
         setupNavBar()
@@ -532,6 +624,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     
     @objc
     func didTapWatchlistButton() {
+			toggleButton()
         print("added to watchlist")
     }
     

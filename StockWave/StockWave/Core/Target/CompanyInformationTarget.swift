@@ -31,10 +31,10 @@ extension CompanyInformationTarget: BaseTargetType {
         switch self {
             
         case .getCompanyInformation(_):
-            return .requestParameters(parameters: ["apikey": "ysPec5JNkAoh6jdNynGU92zFtb1G5hm1"],
+            return .requestParameters(parameters: ["apikey": "773U9cq7jzwBvw9gPs6GN4i42h3YyOCh"],
                                       encoding: URLEncoding.default)
         case .getFinancialInformation(_):
-            return .requestParameters(parameters: ["apikey": "ysPec5JNkAoh6jdNynGU92zFtb1G5hm1",
+            return .requestParameters(parameters: ["apikey": "773U9cq7jzwBvw9gPs6GN4i42h3YyOCh",
                                                    "period": "annual"],
                                                    encoding: URLEncoding.default)
         }
