@@ -1,0 +1,144 @@
+//
+//  WatchlistCollectionViewCell.swift
+//  StockWave
+//
+//  Created by rauan on 4/26/24.
+//
+
+import UIKit
+
+class WatchlistCollectionViewCell: UICollectionViewCell {
+    static let identifier = "WatchlistCollectionViewCell"
+    
+    private lazy var logo: UIImageView = {
+        let logo = UIImageView()
+        logo.contentMode = .scaleAspectFit
+        return logo
+    }()
+    
+    private lazy var tickerNameStack: UIStackView = {
+        let tickerNameStack = UIStackView()
+        tickerNameStack.axis = .vertical
+        tickerNameStack.distribution = .fill
+        tickerNameStack.spacing = 4
+        return tickerNameStack
+    }()
+    
+    private lazy var ticker: UILabel = {
+        let ticker = UILabel()
+        ticker.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        return ticker
+    }()
+    
+    private lazy var companyName: UILabel = {
+        let companyName = UILabel()
+        companyName.font = UIFont.systemFont(ofSize: 12)
+        companyName.textColor = .gray
+        return companyName
+    }()
+    
+    private lazy var priceChangeStack: UIStackView = {
+        let priceChangeStack = UIStackView()
+        priceChangeStack.axis = .vertical
+        priceChangeStack.distribution = .fill
+        priceChangeStack.spacing = 4
+        return priceChangeStack
+    }()
+    
+    private lazy var price: UILabel = {
+        let price = UILabel()
+        price.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        return price
+    }()
+    
+    private lazy var change: UILabel = {
+        let change = UILabel()
+        change.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        change.textAlignment = .right
+        change.textColor = .gray
+        return change
+    }()
+    
+    private lazy var numbersAndNamesStack: UIStackView = {
+        let numbersAndNamesStack = UIStackView()
+        numbersAndNamesStack.axis = .horizontal
+        numbersAndNamesStack.distribution = .equalSpacing
+        return numbersAndNamesStack
+    }()
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        change.text = nil
+        price.text = nil
+        ticker.text = nil
+        companyName.text = nil
+        logo.image = nil
+    }
+    
+    //MARK: - Init
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    //MARK: - setupViews
+    private func setupViews() {
+        contentView.addSubview(numbersAndNamesStack)
+        contentView.addSubview(logo)
+        contentView.layer.cornerRadius = 6
+        contentView.layer.borderColor = UIColor.gray.cgColor
+        contentView.layer.borderWidth = 0.5
+        [tickerNameStack, priceChangeStack].forEach {
+            numbersAndNamesStack.addArrangedSubview($0)
+        }
+        
+        [ticker, companyName].forEach {
+            tickerNameStack.addArrangedSubview($0)
+        }
+        
+        [price, change].forEach {
+            priceChangeStack.addArrangedSubview($0)
+        }
+        
+        tickerNameStack.snp.makeConstraints { make in
+            make.width.equalTo(70)
+        }
+        
+        logo.snp.makeConstraints { make in
+            make.left.top.equalToSuperview().inset(8)
+            make.size.equalTo(34)
+            
+        }
+        
+        numbersAndNamesStack.snp.makeConstraints { make in
+            make.left.equalTo(logo.snp.right).offset(8)
+            make.centerY.equalTo(logo.snp.centerY)
+            make.right.equalToSuperview().offset(-8)
+        }
+    }
+    
+    func configure(data: HomeStocksDataModel) {
+    
+        let imageURL = URL(string: "https://financialmodelingprep.com/image-stock/\(data.companyTicker).png")
+        logo.kf.setImage(with: imageURL)
+        ticker.text = data.companyTicker
+        companyName.text = data.companyName
+        price.text = "$\(String(format: "%.2f", data.companyPrice))"
+        
+        if data.companyChange ?? 0.0 > 0.0 {
+            change.textColor = .green
+            change.text = "+\(String(format: "%.2f", data.companyChangePercentage))%"
+        } else {
+            change.textColor = .red
+            change.text = "\(String(format: "%.2f", data.companyChangePercentage))%"
+        }
+        
+    }
+    
+}
