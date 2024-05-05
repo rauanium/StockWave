@@ -24,7 +24,7 @@ struct DetailsViewModel {
     
     func getCompanyInformation(ticker: String, completion: @escaping (CompanyInformationResponse) -> Void){
         CompanyInformaitonManager.shared.getCompanyInformaiton(ticker: ticker) { companyInformation in
-            completion(companyInformation.first ?? .init(volAvg: nil, mktCap: nil, range: nil, industry: nil, description: nil, ceo: nil, sector: nil, country: nil, city: nil, ipoDate: nil, fullTimeEmployees: nil))
+            completion(companyInformation.first ?? .init(volAvg: nil, mktCap: nil, range: nil, industry: nil, description: nil, ceo: nil, sector: nil, country: nil, city: nil, ipoDate: nil, fullTimeEmployees: nil, companyName: nil))
         }
     }
     
@@ -33,6 +33,12 @@ struct DetailsViewModel {
         CompanyInformaitonManager.shared.getCompanyFinancialInformaiton(ticker: ticker) { financialInformation in
             
             completion(financialInformation.reversed())
+        }
+    }
+    
+    func getNews(ticker: String, completion: @escaping ([Feed]) -> Void) {
+        NewsManager.shared.getNews(ticker: ticker) { feed in
+            completion(feed)
         }
     }
     

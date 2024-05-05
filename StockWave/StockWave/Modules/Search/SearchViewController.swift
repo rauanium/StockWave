@@ -24,6 +24,14 @@ final class SearchViewController: UIViewController {
 		searchVC.searchResultsUpdater = self
 		return searchVC
 	}()
+    
+    private lazy var emptyStateView: EmptyStateViewFavourite = {
+        let view = EmptyStateViewFavourite()
+        view.configure(image: UIImage(named: "searchNotFound")!,
+                                     title: "Not Found",
+                                     subtitle: "Try entering something")
+        return view
+    }()
 
 	// MARK: - Lifecycle
 	
@@ -44,6 +52,11 @@ final class SearchViewController: UIViewController {
 	// MARK: - SetupViews
 	private func setupViews() {
 		view.backgroundColor = .white
+        view.addSubview(emptyStateView)
+        
+        emptyStateView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
 	}
 	
 }

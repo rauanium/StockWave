@@ -59,11 +59,17 @@ extension SearchResultsViewController: UITableViewDelegate, UITableViewDataSourc
 		return cell
 	}
 	
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let stock = stocks[indexPath.row]
-		let stockDetailsViewController = StockDetailsViewController()
-	 // stockDetailsViewController.ticker = stock.symbol
-		stockDetailsViewController.hidesBottomBarWhenPushed = true
-		navigationController?.pushViewController(stockDetailsViewController, animated: true)
-	}
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let stock = stocks[indexPath.row]
+        let stockDetailsViewController = StockDetailsViewController()
+        stockDetailsViewController.ticker = stock.symbol
+        print("indexPath: \(indexPath.row)")
+        print("symbol: \(String(describing: stock.symbol))")
+        stockDetailsViewController.hidesBottomBarWhenPushed = true
+        
+//        navigationController?.pushViewController(stockDetailsViewController, animated: true)
+//        present(stockDetailsViewController, animated: true)
+        self.presentingViewController?.navigationController?.pushViewController(stockDetailsViewController, animated: true)
+    }
 }

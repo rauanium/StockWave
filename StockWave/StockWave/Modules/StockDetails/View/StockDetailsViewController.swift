@@ -11,7 +11,11 @@ import DGCharts
 import CoreData
 
 class StockDetailsViewController: UIViewController, ChartViewDelegate {
-    
+    var allNews: [Feed] = []{
+        didSet {
+            newsTableView.reloadData()
+        }
+    }
     var lineChartEntries: [ChartDataEntry] = []
     var barChartDataEntry: [BarChartDataEntry] = []
     var incomeChartDataEntry: [BarChartDataEntry] = []
@@ -20,7 +24,9 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
 	  private var favouriteStocks: [NSManagedObject] = []
     
     private var viewModel: DetailsViewModel?
-    var details: HomeStocksDataModel?
+    
+    var ticker: String?
+    
     var companyInformationData: CompanyInformationResponse?
     var tickerData: [Historical] = []
     var takeDay: Bool = true
@@ -79,19 +85,12 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         currentPrice.font = UIFont.systemFont(ofSize: 18, weight: .bold)
         currentPrice.textColor = .black
         currentPrice.textAlignment = .right
-        currentPrice.text = "$\(String(format: "%.2f", details?.companyPrice ?? 0.0))"
         return currentPrice
     }()
     private lazy var currentChange: UILabel = {
         let currentChange = UILabel()
         currentChange.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         currentChange.textColor = UIColor(red: 89.0/255.0, green: 85.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-        if details?.companyChange ?? 0.0 >= 0 {
-            currentChange.text = "+\(String(format: "%.2f", details?.companyChange ?? 0.0))"
-        } else {
-            currentChange.text = "\(String(format: "%.2f", details?.companyChange ?? 0.0))"
-        }
-        currentChange.text?.append(" (\(String(format: "%.2f", details?.companyChangePercentage ?? 0.0))%)")
         currentChange.textAlignment = .right
         return currentChange
     }()
@@ -112,6 +111,12 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         chart.minOffset = 0
         chart.delegate = self
         return chart
+    }()
+    
+    private var infoView: InfoView = {
+        let infoView = InfoView()
+        infoView.isHidden = true
+        return infoView
     }()
     
     private lazy var oneDay: UIButton = {
@@ -268,6 +273,21 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         return sharesChart
     }()
     
+    private lazy var newsTableView: ContentSizedTableView = {
+        let newsTableView = ContentSizedTableView()
+        newsTableView.backgroundColor = .clear
+        newsTableView.delegate = self
+        newsTableView.dataSource = self
+        newsTableView.isHidden = true
+        newsTableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.identifier)
+        newsTableView.separatorStyle = .none
+        newsTableView.estimatedRowHeight = 100
+        newsTableView.rowHeight = UITableView.automaticDimension
+        newsTableView.showsVerticalScrollIndicator = false
+        
+        return newsTableView
+    }()
+    
 	
 	//MARK: - Lifecycle
 	override func viewDidLoad() {
@@ -278,6 +298,17 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
 		buttonColorViewDidLoad()
 		sutupViews()
 	}
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let isFavouritestock = !self.favouriteStocks.filter({ ($0.value(forKey: "symbol") as? String) == self.ticker}).isEmpty
+        if !isFavouritestock {
+            let watchlistButton = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(didTapWatchlistButton))
+            navigationItem.rightBarButtonItem = watchlistButton
+        } else {
+            let watchlistButton = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(didTapWatchlistButton))
+            navigationItem.rightBarButtonItem = watchlistButton
+        }
+    }
 	
 	// MARK: - Core
 	
@@ -338,38 +369,37 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
 	}
     
 	func buttonColorViewDidLoad() {
-		let isFavouritestock = !self.favouriteStocks.filter({ ($0.value(forKey: "symbol") as? String) == self.details?.companyTicker}).isEmpty
-//		if isFavouriteMovie {
-//			addToWatchListButton.backgroundColor = .red
-//			addToWatchListButton.setTitle("Remove from Watch List", for: .normal)
-//		} else {
-//			addToWatchListButton.backgroundColor = #colorLiteral(red: 0.1011425927, green: 0.2329770327, blue: 0.9290834069, alpha: 1)
-//			addToWatchListButton.setTitle("Add To Watch List", for: .normal)
-//		}
+		let isFavouritestock = !self.favouriteStocks.filter({ ($0.value(forKey: "symbol") as? String) == self.ticker}).isEmpty
+		if !isFavouritestock {
+            let watchlistButton = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(didTapWatchlistButton))
+            navigationItem.rightBarButtonItem = watchlistButton
+		} else {
+            let watchlistButton = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(didTapWatchlistButton))
+            navigationItem.rightBarButtonItem = watchlistButton
+		}
 	}
-//	(with name: String, symbol: String, image: String)
+    
 	private func toggleButton() {
 		
 		loadStocksFromWatchList()
-		let isFavouritestock = !self.favouriteStocks.filter({ ($0.value(forKey: "symbol") as? String) == self.details?.companyTicker}).isEmpty
+		let isFavouritestock = !self.favouriteStocks.filter({ ($0.value(forKey: "symbol") as? String) == self.ticker}).isEmpty
 
 		if !isFavouritestock {
-	//		addToWatchListButton.backgroundColor = .red
-	//		addToWatchListButton.setTitle("Remove from Watch List", for: .normal)
-			saveStocksFromWatchList(with: details?.companyName ?? "", symbol: details?.companyTicker ?? "")
+            let watchlistButton = UIBarButtonItem(image: UIImage(systemName: "star.fill"), style: .plain, target: self, action: #selector(didTapWatchlistButton))
+            navigationItem.rightBarButtonItem = watchlistButton
+            
+			saveStocksFromWatchList(with: companyInformationData?.companyName ?? "", symbol: ticker ?? "")
 		} else {
-		//	addToWatchListButton.backgroundColor = #colorLiteral(red: 0.1011425927, green: 0.2329770327, blue: 0.9290834069, alpha: 1)
-	//		addToWatchListButton.setTitle("Add To Watch List", for: .normal)
-			deleteStocksFromWatchList(with: details?.companyName ?? "", symbol: details?.companyTicker ?? "")
+            
+            let watchlistButton = UIBarButtonItem(image: UIImage(systemName: "star"), style: .plain, target: self, action: #selector(didTapWatchlistButton))
+            navigationItem.rightBarButtonItem = watchlistButton
+            deleteStocksFromWatchList(with: companyInformationData?.companyName ?? "", symbol: ticker ?? "")
 			
-//			if hideDetail == true {
-//				self.navigationController?.popViewController(animated: true)
-//			}
 		}
 
 	}
     func sutupViews() {
-        navigationItem.title = details?.companyName
+        
         setupNavBar()
          
         view.addSubview(scrollView)
@@ -377,13 +407,15 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         
         [pricesStack, 
          chart,
+         infoView,
          timelineStack,
          segmentedControl,
          companyDescription,
          barChart,
          incomeChart,
          rdChart,
-         sharesChart].forEach {
+         sharesChart,
+         newsTableView].forEach {
             contentView.addSubview($0)
         }
         
@@ -429,6 +461,11 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
             $0.height.equalTo(300)
         }
         
+        infoView.snp.makeConstraints { make in
+            make.width.equalTo(100)
+            make.height.equalTo(50)
+        }
+        
         timelineStack.snp.makeConstraints { make in
             make.top.equalTo(chart.snp.bottom).offset(12)
             make.height.equalTo(30)
@@ -471,15 +508,21 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
             make.bottom.equalTo(contentView.snp.bottom).offset(-16)
         }
         
+        newsTableView.snp.makeConstraints { make in
+            make.top.equalTo(segmentedControl.snp.bottom).offset(8)
+            make.left.right.equalToSuperview().inset(16)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-16)
+        }
+        
     }
     
     func setupViewModel() {
         lineChartEntries = []
         viewModel = DetailsViewModel()
-        guard let tickerSymbol = details?.companyTicker else { return }
+        guard let tickerSymbol = ticker else { return }
         
         let calendar = Calendar.current
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: Date())
+        let yesterday = calendar.date(byAdding: .day, value: -2, to: Date())
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let beforeToday = dateFormatter.string(from: yesterday!)
@@ -493,13 +536,16 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
                 }
                 
                 self.historyPrice.text = "$\(String(format: "%.2f", dailyData[0].open ?? 0.0))"
-                let difference = (self.details?.companyPrice ?? 0.0) - (dailyData[0].open ?? 0.0)
-                let differenceInPercentage = (difference * 100) / (self.details?.companyPrice ?? 0.0)
+                self.currentPrice.text = "$\(String(format: "%.2f", dailyData[dailyData.count - 1].open ?? 0.0))"
+                let difference = (dailyData[dailyData.count - 1].open ?? 0.0) - (dailyData[0].open ?? 0.0)
+                let differenceInPercentage = (difference * 100) / (dailyData[dailyData.count - 1].open ?? 1.0)
                 
                 if difference >= 0 {
                     self.historyChange.text = "+\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
+                    self.currentChange.text = "+\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
                 } else {
                     self.historyChange.text = "\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
+                    self.currentChange.text = "\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
                 }
                 self.configureChart()
             }
@@ -509,6 +555,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
             DispatchQueue.main.async {
                 self.companyDescription.text = companyInformation.description
                 self.companyInformationData = companyInformation
+                self.navigationItem.title = companyInformation.companyName
             }
         })
         
@@ -527,6 +574,8 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
                 self.configureSharesChart()
             }
         })
+        
+        
     }
     
     private func setupNavBar() {
@@ -583,6 +632,11 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
         let dataSet = LineChartDataSet(entries: lineChartEntries)
         dataSet.circleRadius = 1
         dataSet.mode = .cubicBezier
+        dataSet.drawFilledEnabled = true
+        
+        
+        
+        
         let data = LineChartData(dataSet: dataSet)
         chart.data = data
         
@@ -601,12 +655,25 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
             rdChart.isHidden = true
             sharesChart.isHidden = true
             companyDescription.isHidden = false
+            newsTableView.isHidden = true
         case 1:
             barChart.isHidden = false
             incomeChart.isHidden = false
             rdChart.isHidden = false
             sharesChart.isHidden = false
             companyDescription.isHidden = true
+            newsTableView.isHidden = true
+        case 2:
+            viewModel?.getNews(ticker: "AAPL", completion: { feed in
+                self.allNews = feed
+                
+            })
+            barChart.isHidden = true
+            incomeChart.isHidden = true
+            rdChart.isHidden = true
+            sharesChart.isHidden = true
+            companyDescription.isHidden = true
+            newsTableView.isHidden = false
             
         default:
             barChart.isHidden = true
@@ -614,6 +681,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
             rdChart.isHidden = true
             sharesChart.isHidden = true
             companyDescription.isHidden = true
+            newsTableView.isHidden = true
         }
     }
     
@@ -717,7 +785,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
             $0.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .medium)
             $0.setTitleColor(.gray, for: .normal)
         }
-        guard let tickerSymbol = details?.companyTicker else { return }
+        guard let tickerSymbol = ticker else { return }
         
         viewModel?.getWeeklyCharts(ticker: tickerSymbol, completion: { chartsData in
             DispatchQueue.main.async {
@@ -735,7 +803,7 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
     }
     
     private func gettingDataAcordingToDate(from: Int) {
-        guard let tickerSymbol = details?.companyTicker else { return }
+        guard let tickerSymbol = ticker else { return }
         lineChartEntries = []
         let calendar = Calendar.current
         let fromDate = calendar.date(byAdding: .day, value: -from, to: Date())
@@ -757,8 +825,8 @@ class StockDetailsViewController: UIViewController, ChartViewDelegate {
                 }
                 
                 self.historyPrice.text = "$\(String(format: "%.2f", dailyData[0].open ?? 0.0))"
-                let difference = (self.details?.companyPrice ?? 0.0) - (dailyData[0].open ?? 0.0)
-                let differenceInPercentage = (difference * 100) / (self.details?.companyPrice ?? 0.0)
+                let difference = (dailyData[dailyData.count - 1].open ?? 0.0) - (dailyData[0].open ?? 0.0)
+                let differenceInPercentage = (difference * 100) / (dailyData[dailyData.count - 1].open ?? 1.0)
                 
                 if difference >= 0 {
                     self.historyChange.text = "+\(String(format: "%.2f", difference)) (\(String(format: "%.2f", differenceInPercentage))%)"
@@ -793,4 +861,33 @@ extension StockDetailsViewController: AxisValueFormatter {
         }
         
     }
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        infoView.isHidden = false
+        infoView.center.x = highlight.xPx
+        infoView.center.y = highlight.yPx + 200
+        let dataOfBubble = entry.data as! String
+        let price = "String(highlight.y)"
+        infoView.configure(price: price, date: dataOfBubble)
+    }
+}
+
+
+extension StockDetailsViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return allNews.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = newsTableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.identifier, for: indexPath) as! NewsTableViewCell
+        cell.configure(data: allNews[indexPath.row])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let url = URL(string: allNews[indexPath.row].url) {
+            UIApplication.shared.open(url)
+        }
+        
+    }
+    
 }

@@ -122,18 +122,18 @@ class TrendingStocksCollectionViewCell: UICollectionViewCell {
     
     func configure(data: HomeStocksDataModel) {
     
-        let imageURL = URL(string: "https://financialmodelingprep.com/image-stock/\(data.companyTicker).png")
+        let imageURL = URL(string: "https://financialmodelingprep.com/image-stock/\( data.symbol ?? "").png")
         logo.kf.setImage(with: imageURL)
-        ticker.text = data.companyTicker
-        companyName.text = data.companyName
-        price.text = "$\(String(format: "%.2f", data.companyPrice))"
+        ticker.text = data.symbol
+        companyName.text = data.name
+        price.text = "$\(String(format: "%.2f", data.price ?? 0.0))"
         
-        if data.companyChange ?? 0.0 > 0.0 {
+        if data.change ?? 0.0 > 0.0 {
             change.textColor = .green
-            change.text = "+\(String(format: "%.2f", data.companyChangePercentage))%"
+            change.text = "+\(String(format: "%.2f", data.changesPercentage ?? 0.0))%"
         } else {
             change.textColor = .red
-            change.text = "\(String(format: "%.2f", data.companyChangePercentage))%"
+            change.text = "\(String(format: "%.2f", data.changesPercentage ?? 0.0))%"
         }
         
     }

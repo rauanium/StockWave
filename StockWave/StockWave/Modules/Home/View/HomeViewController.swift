@@ -15,8 +15,9 @@ fileprivate typealias dataSourceSnapshot = NSDiffableDataSourceSnapshot<HomeSect
 
 class HomeViewController: UIViewController {
     
+    
     var general: [HomeStocksDataModel] = []
-    var watchlist: [HomeStocksDataModel] = [.init(id: "", companyImage: nil, companyTicker: "", companyName: "", companyPrice: 0.0, companyChange: 0.0, companyChangePercentage: 0.0 )]
+    var watchlist: [HomeStocksDataModel] = []
     var actives: [HomeStocksDataModel] = []
     var gainers: [HomeStocksDataModel] = []
     var losers: [HomeStocksDataModel] = []
@@ -29,20 +30,6 @@ class HomeViewController: UIViewController {
     private var dataSource: stockDataSource!
     static let sectionHeaderElementKind = "section-header-element-kind"
     
-    private lazy var portfolioLabel: UILabel = {
-        let portfolioLabel = UILabel()
-        portfolioLabel.font = UIFont.systemFont(ofSize: 14)
-        portfolioLabel.textColor = .gray
-        portfolioLabel.text = "Portfolio value"
-        return portfolioLabel
-    }()
-    
-    private lazy var portfolioValue: UILabel = {
-        let portfolioValue = UILabel()
-        portfolioValue.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        portfolioValue.text = "$13,283"
-        return portfolioValue
-    }()
     
     private lazy var compositionalLayout: UICollectionView = {
         let compositionalView = UICollectionView(frame: view.bounds, collectionViewLayout: generateLayout())
@@ -78,31 +65,28 @@ class HomeViewController: UIViewController {
         configureDataSource()
         setupNavigation()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadStocksFromWatchList()
+        hundleEmptyStateView()
+        applySnapshot()
+        
+    }
+    
     //MARK: - setupviews
     func setupViews() {
-        
-        
         view.backgroundColor = .white
-        
+        navigationItem.title = "Home"
         view.addSubview(compositionalLayout)
-        view.addSubview(portfolioValue)
-        view.addSubview(portfolioLabel)
         
-        portfolioLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(70)
-            make.left.right.equalToSuperview().inset(16)
-        }
-        
-        portfolioValue.snp.makeConstraints { make in
-            make.top.equalTo(portfolioLabel.snp.bottom)
-            make.left.right.equalToSuperview().inset(16)
-        }
         compositionalLayout.snp.makeConstraints { make in
-            make.top.equalTo(portfolioValue.snp.bottom).offset(10)
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.left.right.equalToSuperview().inset(16)
         }
     }
+    
     
     private func setupNavigation() {
         let navigationBarAppearance = UINavigationBarAppearance()
@@ -125,24 +109,15 @@ class HomeViewController: UIViewController {
         viewModel?.getMostActiveStocks(completion: { activeStocks in
             for i in 0...4 {
                 self.actives.append(.init(
-                    id: activeStocks[i].symbol ?? "",
-                    companyImage: nil,
-                    companyTicker: activeStocks[i].symbol ?? "",
-                    companyName: activeStocks[i].name ?? "",
-                    companyPrice: activeStocks[i].price ?? 0.0,
-                    companyChange: activeStocks[i].change ?? 0.0,
-                    companyChangePercentage: activeStocks[i].changesPercentage ?? 0.0
+                    symbol: activeStocks[i].symbol ?? "",
+                    name: activeStocks[i].name ?? "",
+                    price: activeStocks[i].price ?? 0.0,
+                    changesPercentage: activeStocks[i].changesPercentage ?? 0.0,
+                    change: activeStocks[i].change ?? 0.0
+                    
                 )
                                     
                 )
-//                self.watchlist.append(.init(
-//                    id: activeStocks[i].symbol ?? "",
-//                    companyImage: nil,
-//                    companyTicker: activeStocks[i].symbol ?? "",
-//                    companyName: activeStocks[i].name ?? "",
-//                    companyPrice: activeStocks[i].price ?? 0.0,
-//                    companyChange: activeStocks[i].change ?? 0.0)
-//                )
             }
             self.applySnapshot()
             
@@ -151,13 +126,12 @@ class HomeViewController: UIViewController {
         viewModel?.getMostGainersStocks(completion: { gainerStocks in
             for i in 0...4 {
                 self.gainers.append(.init(
-                    id: gainerStocks[i].symbol ?? "",
-                    companyImage: nil,
-                    companyTicker: gainerStocks[i].symbol ?? "",
-                    companyName: gainerStocks[i].name ?? "",
-                    companyPrice: gainerStocks[i].price ?? 0.0,
-                    companyChange: gainerStocks[i].change ?? 0.0,
-                    companyChangePercentage: gainerStocks[i].changesPercentage ?? 0.0)
+                    symbol: gainerStocks[i].symbol ?? "",
+                    name: gainerStocks[i].name ?? "",
+                    price: gainerStocks[i].price ?? 0.0,
+                    changesPercentage: gainerStocks[i].changesPercentage ?? 0.0,
+                    change: gainerStocks[i].change ?? 0.0
+                    )
                 )
             }
             
@@ -167,13 +141,13 @@ class HomeViewController: UIViewController {
         viewModel?.getMostLosersStocks(completion: { loserStocks in
             for i in 0...4 {
                 self.losers.append(.init(
-                    id: loserStocks[i].symbol ?? "",
-                    companyImage: nil,
-                    companyTicker: loserStocks[i].symbol ?? "",
-                    companyName: loserStocks[i].name ?? "",
-                    companyPrice: loserStocks[i].price ?? 0.0,
-                    companyChange: loserStocks[i].change ?? 0.0,
-                    companyChangePercentage: loserStocks[i].changesPercentage ?? 0.0)
+                    symbol: loserStocks[i].symbol ?? "",
+                    name: loserStocks[i].name ?? "",
+                    price: loserStocks[i].price ?? 0.0,
+                    changesPercentage: loserStocks[i].changesPercentage ?? 0.0,
+                    change: loserStocks[i].change ?? 0.0
+                    
+                    )
                 )
             }
             self.applySnapshot()
@@ -183,18 +157,57 @@ class HomeViewController: UIViewController {
             print("HVCcommodities: \(commodities)")
             commodities.forEach { item in
                 self.general.append(.init(
-                    id: item.symbol ?? "",
-                    companyImage: nil,
-                    companyTicker: item.symbol ?? "",
-                    companyName: item.name ?? "",
-                    companyPrice: item.price ?? 0.0,
-                    companyChange: item.change ?? 0.0,
-                    companyChangePercentage: item.changesPercentage ?? 0.0)
+                    symbol: item.symbol ?? "",
+                    name: item.name ?? "",
+                    price: item.price ?? 0.0,
+                    changesPercentage: item.changesPercentage ?? 0.0, 
+                    change: item.change ?? 0.0)
                 )
             }
             
             self.applySnapshot()
         })
+    }
+    
+    private func loadStocksFromWatchList() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Stocks")
+        do {
+            favouriteStocks = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. Error: \(error)")
+        }
+    }
+    
+    private func hundleEmptyStateView() {
+        print("favstocksCount: \(favouriteStocks.count)")
+        print("watchlist.count: \(watchlist.count)")
+        
+        if favouriteStocks.count > 0 {
+//            print("watchlist.count: \(watchlist.count)")
+            
+            test = true
+            for i in 0..<favouriteStocks.count {
+                let stock = favouriteStocks[i]
+                let symbol = stock.value(forKeyPath: "symbol") as? String
+                guard let favStock = symbol else { return }
+                viewModel?.getFavourite(favStock: favStock, completion: { favDetails in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        self.watchlist = favDetails
+                        self.applySnapshot()
+                    }
+                    
+                })
+                
+            }
+            self.applySnapshot()
+        } else {
+            
+            test = false
+        }
+        
     }
     
     func configureDataSource() {
@@ -215,10 +228,12 @@ class HomeViewController: UIViewController {
                 
             case .watchlist:
                 if self.test {
+                    self.watchlist = [.init(symbol: "", name: "", price: 0.0,changesPercentage: 0.0, change: 0.0  )]
                     guard let cell = collectionView.dequeueReusableCell(
                         withReuseIdentifier: WatchlistCollectionViewCell.identifier,
                         for: indexPath) as? WatchlistCollectionViewCell else { fatalError("Could not create new cell") }
                     cell.configure(data: item)
+                    
     //                cell.backgroundColor = .systemPink
                     return cell
                 } else {
@@ -457,11 +472,12 @@ extension HomeViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
         let stockDetailsViewController = StockDetailsViewController()
-//        stockDetailsViewController.ticker = item.companyTicker
+        stockDetailsViewController.ticker = item.symbol
 //        stockDetailsViewController.companyName = item.companyName
-        stockDetailsViewController.details = item
+//        stockDetailsViewController.details = item
+        
         stockDetailsViewController.hidesBottomBarWhenPushed = true
-        print("companyTicker: \(item.companyTicker)")
+        
         
         
         navigationController?.pushViewController(stockDetailsViewController, animated: true)

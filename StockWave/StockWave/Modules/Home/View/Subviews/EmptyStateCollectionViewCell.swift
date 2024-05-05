@@ -35,7 +35,7 @@ class EmptyStateCollectionViewCell: UICollectionViewCell {
     private lazy var stateDescription: UILabel = {
         let stateDescription = UILabel()
         stateDescription.font = UIFont.systemFont(ofSize: 12)
-        stateDescription.text = "no favs yet"
+        stateDescription.text = "No favourite stocks yet"
         stateDescription.textColor = .gray
         return stateDescription
     }()

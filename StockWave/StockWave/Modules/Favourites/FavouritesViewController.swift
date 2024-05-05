@@ -20,12 +20,12 @@ final class FavouritesViewController: UIViewController {
 	
 	// MARK: - UI
 	
-	private var titleLabel: UILabel = {
-		let label = UILabel()
-		label.text = "Watch List"
-		label.font = UIFont.systemFont(ofSize: 36, weight: .bold)
-		return label
-	}()
+//	private var titleLabel: UILabel = {
+//		let label = UILabel()
+//		label.text = "Watch List"
+//		label.font = UIFont.systemFont(ofSize: 36, weight: .bold)
+//		return label
+//	}()
 	
 	private lazy var tableView: UITableView = {
 		let tableView = UITableView()
@@ -39,8 +39,8 @@ final class FavouritesViewController: UIViewController {
 		let view = EmptyStateViewFavourite()
 		view.isHidden = true
 		view.configure(image: UIImage(named: "No_Favorite_illustration")!,
-									 title: "No Favourites",
-									 subtitle: "You can add an item to your favourites by clicking “Star Icon")
+									 title: "No Watchlist",
+									 subtitle: "You can add an item to your watchlist by clicking \"Star Icon\"")
 		return view
 	}()
 	
@@ -93,7 +93,7 @@ final class FavouritesViewController: UIViewController {
 	private func setupViews() {
 		view.backgroundColor = .white
 		
-		[titleLabel, tableView, emptyStateView].forEach {
+		[ tableView, emptyStateView].forEach {
 			view.addSubview($0)
 		}
 	}
@@ -101,13 +101,14 @@ final class FavouritesViewController: UIViewController {
 	// MARK: - Setup Constraints
 	private func setupConstraints() {
 		
-		titleLabel.snp.makeConstraints { make in
-			make.top.equalTo(view.safeAreaLayoutGuide)
-			make.centerX.equalToSuperview()
-		}
+//		titleLabel.snp.makeConstraints { make in
+//			make.top.equalTo(view.safeAreaLayoutGuide)
+//			make.centerX.equalToSuperview()
+//		}
+        navigationItem.title = "Watchlist"
 		
 		tableView.snp.makeConstraints { make in
-			make.top.equalTo(titleLabel.snp.bottom).offset(16)
+			make.top.equalTo(view.safeAreaLayoutGuide)
 			make.leading.trailing.bottom.equalToSuperview()
 		}
 		
@@ -136,6 +137,11 @@ extension FavouritesViewController: UITableViewDataSource {
 extension FavouritesViewController: UITableViewDelegate {
 	
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		print("Did")
+        let stock = favouriteStocks[indexPath.row]
+        let symbol = stock.value(forKeyPath: "symbol") as? String
+        let stockDetailsViewController = StockDetailsViewController()
+        stockDetailsViewController.ticker = symbol
+        stockDetailsViewController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(stockDetailsViewController, animated: true)
 	}
 }

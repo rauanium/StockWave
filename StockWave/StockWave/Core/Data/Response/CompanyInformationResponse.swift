@@ -19,4 +19,5 @@ struct CompanyInformationResponse: Decodable {
     let city: String?
     let ipoDate: String?
     let fullTimeEmployees: String?
+    let companyName: String?
 }

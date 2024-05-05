@@ -38,5 +38,7 @@ extension ActiveGainersLosersTarget: BaseTargetType {
 //ysPec5JNkAoh6jdNynGU92zFtb1G5hm1 - aspark
 //LdkDAgkHEr7Vl7fWyFPvi0U3Dkx9AFVS - r.zhaukenov
 //n2g6J4FFFpYhrivKY7DjuJh8RDrhLN2a - rauan
+//MntJPkNBu7rmU9Ced5GG3v18Ryazd1Vj - rauan zhaukenov - done
+//773U9cq7jzwBvw9gPs6GN4i42h3YyOCh - Mariay
 
 

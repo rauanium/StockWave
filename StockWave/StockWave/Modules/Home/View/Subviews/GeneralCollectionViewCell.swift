@@ -81,14 +81,14 @@ class GeneralCollectionViewCell: UICollectionViewCell {
     
     //MARK: - Cell configuaration
     func configure(data: HomeStocksDataModel) {
-        ticker.text = data.companyTicker
-        companyName.text = data.companyName
-        if data.companyChange ?? 0.0 > 0.0 {
+        ticker.text = data.symbol
+        companyName.text = data.name
+        if data.change ?? 0.0 > 0.0 {
             change.textColor = .green
-            change.text = "+\(String(format: "%.2f", data.companyChangePercentage))%"
+            change.text = "+\(String(format: "%.2f", data.changesPercentage ?? 0.0))%"
         } else {
             change.textColor = .red
-            change.text = "\(String(format: "%.2f", data.companyChangePercentage))%"
+            change.text = "\(String(format: "%.2f", data.changesPercentage ?? 0.0))%"
         }
     }
 }
